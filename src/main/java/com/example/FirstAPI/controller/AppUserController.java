@@ -1,8 +1,12 @@
 package com.example.FirstAPI.controller;
 
 
+import com.example.FirstAPI.DTO.UserCreateDTO;
+import com.example.FirstAPI.DTO.UserResponseDTO;
+import com.example.FirstAPI.DTO.UserUpdateDTO;
 import com.example.FirstAPI.entity.AppUserEntity;
 import com.example.FirstAPI.service.AppUserService;
+import org.apache.catalina.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,44 +25,45 @@ public class AppUserController {
     }
 
     @PostMapping
-    public void createUser(@RequestBody AppUserEntity usuario){
-        userService.createUser(usuario);
+    public ResponseEntity<AppUserEntity> createUser(@RequestBody UserCreateDTO usuario){
+        Optional<AppUserEntity> user = userService.createUser(usuario);
+        if (user.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(user.get());
     }
 
     @GetMapping
-    //( @ResponseBody )redundante pois RestController ja faz isso
-    public List<AppUserEntity> findUsers(){
+
+    public List<UserResponseDTO> findUsers(){
         return userService.findUsers();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AppUserEntity> findUserById(@PathVariable Long id){
-        Optional<AppUserEntity> usuario = userService.findUserById(id);
-        if(usuario.isPresent()){
-            return ResponseEntity.ok(usuario.get());
-        }
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<UserResponseDTO> findUserById(@PathVariable Long id){
+        Optional<UserResponseDTO> usuario = userService.findUserById(id);
+        if(usuario.isEmpty()){return ResponseEntity.notFound().build();}
+        return ResponseEntity.ok(usuario.get());
     }
     @GetMapping("/search")
-    public List<AppUserEntity> findByNome(@RequestParam String nome){
+    public List<UserResponseDTO> findByNome(@RequestParam String nome){
         return userService.findByNome(nome);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateUserById(@RequestBody AppUserEntity usuario, @PathVariable Long id){
-        Optional<AppUserEntity> user = userService.updateUserById(usuario, id);
-        if (user.isPresent()){
-            return ResponseEntity.ok(null);
+    public ResponseEntity<UserResponseDTO> updateUserById(@RequestBody UserUpdateDTO usuario, @PathVariable Long id){
+        Optional<UserResponseDTO> user = userService.updateUserById(usuario, id);
+        if (user.isEmpty()){
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
-
+        return ResponseEntity.ok(user.get());
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteUserById(@PathVariable Long id){
         Boolean usuarioASerDeletado = userService.deleteUserById(id);
 
-        if(false){
+        if(usuarioASerDeletado){
             return ResponseEntity.ok(null);
         }
 

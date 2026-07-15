@@ -1,5 +1,6 @@
 package com.example.FirstAPI.entity;
 
+import com.example.FirstAPI.DTO.UserCreateDTO;
 import com.example.FirstAPI.service.AppUserService;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,9 +8,7 @@ import jakarta.persistence.Id;
 @Entity
 public class AppUserEntity {
 
-    public AppUserEntity(){
 
-    }
 
     @Id
     @GeneratedValue
@@ -43,5 +42,14 @@ public class AppUserEntity {
     //Peso Getters e Stters
     public double getPeso(){return peso;}
     public void setPeso(double peso){this.peso = peso;}
+    public AppUserEntity(UserCreateDTO dto){
+        this.nome = dto.getNome();
+        this.idade = dto.getIdade();
+        this.altura = dto.getAltura();
+        this.peso = dto.getPeso();
+        this.senha = dto.getSenha();
+    }
+
+
 
 }
