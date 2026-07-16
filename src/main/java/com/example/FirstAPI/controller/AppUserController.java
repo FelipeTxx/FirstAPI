@@ -6,6 +6,7 @@ import com.example.FirstAPI.DTO.UserResponseDTO;
 import com.example.FirstAPI.DTO.UserUpdateDTO;
 import com.example.FirstAPI.entity.AppUserEntity;
 import com.example.FirstAPI.service.AppUserService;
+import jakarta.validation.Valid;
 import org.apache.catalina.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class AppUserController {
     }
 
     @PostMapping
-    public ResponseEntity<AppUserEntity> createUser(@RequestBody UserCreateDTO usuario){
+    public ResponseEntity<AppUserEntity> createUser(@Valid @RequestBody UserCreateDTO usuario){
         Optional<AppUserEntity> user = userService.createUser(usuario);
         if (user.isEmpty()){
             return ResponseEntity.notFound().build();
@@ -40,18 +41,20 @@ public class AppUserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> findUserById(@PathVariable Long id){
-        Optional<UserResponseDTO> usuario = userService.findUserById(id);
-        if(usuario.isEmpty()){return ResponseEntity.notFound().build();}
-        return ResponseEntity.ok(usuario.get());
+
+    public ResponseEntity<@Valid UserResponseDTO> findUserById(@PathVariable Long id){
+        UserResponseDTO usuario = userService.findUserById(id);
+
+        return ResponseEntity.ok(usuario);
     }
     @GetMapping("/search")
-    public List<UserResponseDTO> findByNome(@RequestParam String nome){
+
+    public List<@Valid UserResponseDTO> findByNome(@RequestParam String nome){
         return userService.findByNome(nome);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> updateUserById(@RequestBody UserUpdateDTO usuario, @PathVariable Long id){
+    public ResponseEntity<UserResponseDTO> updateUserById(@Valid @RequestBody UserUpdateDTO usuario, @PathVariable Long id){
         Optional<UserResponseDTO> user = userService.updateUserById(usuario, id);
         if (user.isEmpty()){
             return ResponseEntity.notFound().build();

@@ -4,6 +4,7 @@ import com.example.FirstAPI.DTO.UserCreateDTO;
 import com.example.FirstAPI.DTO.UserResponseDTO;
 import com.example.FirstAPI.DTO.UserUpdateDTO;
 import com.example.FirstAPI.entity.AppUserEntity;
+import com.example.FirstAPI.exception.UserNotFoundException;
 import com.example.FirstAPI.repository.AppUserRepository;
 import org.springframework.stereotype.Service;
 
@@ -39,13 +40,13 @@ public class AppUserService {
     }
 
 
-    public Optional<UserResponseDTO> findUserById(Long id) {
+    public UserResponseDTO findUserById(Long id) {
 
-        Optional<AppUserEntity> user = repository.findById(id);
-        if (user.isEmpty()){return Optional.empty();}
-        UserResponseDTO dto = new UserResponseDTO(user.get());
+        AppUserEntity user = repository.findById(id).orElseThrow(() -> new UserNotFoundException("Usuario Não encontrado!"));
 
-        return Optional.of(dto);
+        UserResponseDTO dto = new UserResponseDTO(user);
+
+        return dto;
 
     }
 
