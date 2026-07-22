@@ -4,6 +4,10 @@ import com.example.FirstAPI.DTO.UserCreateDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
+import java.util.List;
+
 @Entity
 public class AppUserEntity {
 
@@ -19,6 +23,8 @@ public class AppUserEntity {
     private Integer idade;
     private double altura;
     private double peso;
+    @OneToMany(mappedBy = "usuario")
+    private List<HabitEntity> habito;
 
     //ID Getters e Stters
     public Long getId(){return id;}
@@ -43,6 +49,10 @@ public class AppUserEntity {
     //Peso Getters e Stters
     public double getPeso(){return peso;}
     public void setPeso(double peso){this.peso = peso;}
+
+    public List<HabitEntity> getHabito() {return habito;}
+
+
     public AppUserEntity(UserCreateDTO dto){
         this.nome = dto.getNome();
         this.idade = dto.getIdade();

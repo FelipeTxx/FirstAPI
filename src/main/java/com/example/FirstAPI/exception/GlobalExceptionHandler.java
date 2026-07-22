@@ -31,4 +31,16 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleUserNotFound(UserNotFoundException ex){
         return ResponseEntity.status(404).body(ex.getMessage());
     }
+    @ExceptionHandler(HabitNotFoundException.class)
+    public ResponseEntity<String> handHabitNotFound(HabitNotFoundException ex){
+        return ResponseEntity.status(404).body(ex.getMessage());
+    }
+    @ExceptionHandler(HabitConclusionNotFoundException.class)
+    public ResponseEntity<String> HabitConclusionAlreadyConcluedException(HabitConclusionNotFoundException ex){
+        return ResponseEntity.status(404).body(ex.getMessage());
+    }
+    @ExceptionHandler(HabitConclusionAlreadyConcluedException.class)
+    public ResponseEntity<String> HabitConclusionAlreadyConcluedException(HabitConclusionAlreadyConcluedException ex){
+        return ResponseEntity.status(409).body(ex.getMessage());
+    }
 }
