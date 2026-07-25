@@ -13,4 +13,6 @@ public interface AppUserRepository extends JpaRepository<AppUserEntity, Long>{
 
 
     List<AppUserEntity> findByNome(String nome);
+
+    Optional<AppUserEntity> findByEmail(String email);
 }

@@ -43,4 +43,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> HabitConclusionAlreadyConcluedException(HabitConclusionAlreadyConcluedException ex){
         return ResponseEntity.status(409).body(ex.getMessage());
     }
+    @ExceptionHandler(EmailNotFoundException.class)
+    public ResponseEntity<String> EmailNotFoundException(EmailNotFoundException ex){
+        return ResponseEntity.status(404).body(ex.getMessage());
+    }
+    @ExceptionHandler(PasswordNotMatchesException.class)
+    public ResponseEntity<String> PasswordNotMatchesException(PasswordNotMatchesException ex){
+        return ResponseEntity.status(401).body(ex.getMessage());
+    }
+
 }

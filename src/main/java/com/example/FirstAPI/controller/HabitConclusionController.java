@@ -29,7 +29,7 @@ public class HabitConclusionController {
         return ResponseEntity.accepted().build();
     }
 
-    @DeleteMapping("/habits/{id}/delete/{conclusionId}")
+    @DeleteMapping("/habits/{id}/{conclusionId}")
     public ResponseEntity<@Valid Boolean> deletarHabitoConclusion(@PathVariable long id, @PathVariable Long conclusionId){
         Boolean deleted = service.deletarHabitoConclusion(id, conclusionId);
         if(!deleted){

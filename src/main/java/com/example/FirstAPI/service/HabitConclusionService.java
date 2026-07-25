@@ -31,29 +31,12 @@ public class HabitConclusionService {
     public Boolean concluirHabito(Long id) {
         HabitEntity findedHabito = habitRepository.findById(id).orElseThrow(HabitNotFoundException::new);
         LocalDate dataAgora = LocalDate.now();
-
         HabitConclusionEntity habitConclusion = new HabitConclusionEntity();
-
-        List<HabitConclusionEntity> habitData = repository.findAll();
-
-        habitConclusion.setHabit(findedHabito);
-
-
-
-        for (HabitConclusionEntity i : habitData) {
-
-            if (Objects.equals(i.getHabit().getId(), id)) {
-                if (i.getData().equals(dataAgora)) {
-                    throw new HabitConclusionAlreadyConcluedException();
-                }
-            }
-        }
-
+        if(repository.existsByDataAndHabitId(dataAgora, id)){throw new HabitConclusionAlreadyConcluedException();}
         habitConclusion.setHabit(findedHabito);
         habitConclusion.setData(dataAgora);
         repository.save(habitConclusion);
         return true;
-
     }
 
     public Boolean deletarHabitoConclusion(long id, Long conclusionId) {
@@ -68,19 +51,8 @@ public class HabitConclusionService {
     }
 
     public List<HabitConclusionResponseDTO> getAllConclusions(Long id) {
-        HabitEntity findedHabit = habitRepository.findById(id).orElseThrow(HabitNotFoundException::new);
-        System.out.println(findedHabit.getHabitConclusion().size());
-        System.out.println(repository.findAll().size());
-        List<HabitConclusionResponseDTO> listDTO = new ArrayList<>();
-        HabitConclusionEntity habitConclusion = new HabitConclusionEntity();
-        habitConclusion.setHabit(findedHabit);
-        for (HabitConclusionEntity i: findedHabit.getHabitConclusion()){
-            HabitConclusionResponseDTO dto = new HabitConclusionResponseDTO(i);
-            listDTO.add(dto);
-        }
-        if (listDTO.isEmpty()){ throw new HabitConclusionNotFoundException("Esse habito não tem nenhuma conclusao!");}
-        return listDTO;
-
+        habitRepository.findById(id).orElseThrow(HabitNotFoundException::new);
+        return repository.findByHabitId(id).stream().map(HabitConclusionResponseDTO::new).toList();
     }
 
     public HabitConclusionResponseDTO getConclusionById(Long id, Long conclusionID) {

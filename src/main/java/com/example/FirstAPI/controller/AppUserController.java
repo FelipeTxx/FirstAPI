@@ -26,12 +26,9 @@ public class AppUserController {
     }
 
     @PostMapping
-    public ResponseEntity<AppUserEntity> createUser(@Valid @RequestBody UserCreateDTO usuario){
-        Optional<AppUserEntity> user = userService.createUser(usuario);
-        if (user.isEmpty()){
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(user.get());
+    public ResponseEntity<UserResponseDTO> createUser(@Valid @RequestBody UserCreateDTO usuario){
+        UserResponseDTO user = userService.createUser(usuario);
+        return ResponseEntity.ok(user);
     }
 
     @GetMapping
@@ -51,6 +48,11 @@ public class AppUserController {
 
     public List<@Valid UserResponseDTO> findByNome(@RequestParam String nome){
         return userService.findByNome(nome);
+    }
+
+    @GetMapping("/searchEmail")
+    public ResponseEntity<@Valid UserResponseDTO> findByEmail(@RequestParam String email){
+        return ResponseEntity.ok(userService.findByEmail(email));
     }
 
     @PutMapping("/{id}")

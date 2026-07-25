@@ -1,15 +1,16 @@
 package com.example.FirstAPI.entity;
 
 import com.example.FirstAPI.DTO.UserCreateDTO;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
+import org.jspecify.annotations.Nullable;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.List;
 
 @Entity
-public class AppUserEntity {
+public class AppUserEntity implements UserDetails {
 
     public AppUserEntity(){
 
@@ -25,6 +26,9 @@ public class AppUserEntity {
     private double peso;
     @OneToMany(mappedBy = "usuario")
     private List<HabitEntity> habito;
+
+    @Column(unique = true, nullable = false)
+    private String email;
 
     //ID Getters e Stters
     public Long getId(){return id;}
@@ -50,7 +54,12 @@ public class AppUserEntity {
     public double getPeso(){return peso;}
     public void setPeso(double peso){this.peso = peso;}
 
+    public String getEmail() {return email;}
+
+    public void setEmail(String email) {this.email = email;}
+
     public List<HabitEntity> getHabito() {return habito;}
+
 
 
     public AppUserEntity(UserCreateDTO dto){
@@ -59,9 +68,22 @@ public class AppUserEntity {
         this.altura = dto.getAltura();
         this.peso = dto.getPeso();
         this.senha = dto.getSenha();
+        this.email =dto.getEmail();
     }
 
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
 
+    @Override
+    public @Nullable String getPassword() {
+        return senha;
+    }
 
+    @Override
+    public String getUsername() {
+        return email;
+    }
 }

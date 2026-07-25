@@ -1,6 +1,7 @@
 package com.example.FirstAPI.DTO;
 
 import com.example.FirstAPI.entity.AppUserEntity;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.*;
 
 public class UserCreateDTO {
@@ -21,12 +22,15 @@ public class UserCreateDTO {
     @NotBlank
     @Size(min = 6, max = 100)
     private String senha;
+    @Column(unique = true, nullable = false)
+    private String email;
 
     public String getNome(){return nome;}
     public Integer getIdade(){return idade;}
     public double getAltura(){return altura;}
     public double getPeso() {return peso;}
     public String getSenha() {return senha;}
+    public String getEmail() {return email;}
 
     public UserCreateDTO(){
 

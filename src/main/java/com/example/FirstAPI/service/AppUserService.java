@@ -6,6 +6,9 @@ import com.example.FirstAPI.DTO.UserUpdateDTO;
 import com.example.FirstAPI.entity.AppUserEntity;
 import com.example.FirstAPI.exception.UserNotFoundException;
 import com.example.FirstAPI.repository.AppUserRepository;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,21 +16,25 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+
 public class AppUserService {
     private final AppUserRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
 
 
-    public AppUserService(AppUserRepository repository ) {
+    public AppUserService(AppUserRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
 
+        this.passwordEncoder = passwordEncoder;
     }
 
-    public Optional<AppUserEntity> createUser(UserCreateDTO dto) {
-        Optional<AppUserEntity> entity = Optional.of(new AppUserEntity(dto));
+    public UserResponseDTO createUser(UserCreateDTO dto) {
+        AppUserEntity entity = new AppUserEntity(dto);
+        entity.setSenha(passwordEncoder.encode(entity.getSenha()));
 
-        AppUserEntity userCreated =  repository.save(entity.get());
-        return Optional.of(userCreated);
+        repository.save(entity);
+        return new UserResponseDTO(entity);
     }
     public List<UserResponseDTO> findUsers(){
         List<AppUserEntity> user = repository.findAll();
@@ -41,23 +48,11 @@ public class AppUserService {
 
 
     public UserResponseDTO findUserById(Long id) {
-
-        AppUserEntity user = repository.findById(id).orElseThrow(() -> new UserNotFoundException("Usuario Não encontrado!"));
-
-        UserResponseDTO dto = new UserResponseDTO(user);
-
-        return dto;
-
+         return repository.findById(id).map(UserResponseDTO::new).orElseThrow(UserNotFoundException::new);
     }
 
     public List<UserResponseDTO> findByNome(String nome){
-        List<AppUserEntity> user = repository.findByNome(nome);
-        List<UserResponseDTO> dtoUsers = new ArrayList<>();
-        for (AppUserEntity i: user){//isso daqui ja me da direto o usuario buscado, nem preciso do get
-            UserResponseDTO dto = new UserResponseDTO(i);
-            dtoUsers.add(dto);
-        }
-        return dtoUsers;
+        return repository.findByNome(nome).stream().map(UserResponseDTO::new).toList();
     }
 
 
@@ -86,5 +81,9 @@ public class AppUserService {
         if(usuarioASerDeletado.isEmpty()){ return false; }
         repository.deleteById(id);
         return true;
+    }
+
+    public UserResponseDTO findByEmail(String email) {
+         return (repository.findByEmail(email).map(UserResponseDTO::new).orElseThrow());
     }
 }
