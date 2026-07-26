@@ -25,7 +25,8 @@ public class JwtService {
         LocalDate data = LocalDate.now().plusDays(1);
         Date date = Date.from(data.atStartOfDay(ZoneId.systemDefault()).toInstant());
         return Jwts.builder().subject(user.getUsername()).expiration(date).signWith(key).compact();
-
-
+    }
+    public String extractUsername(String token){
+        return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload().getSubject();
     }
 }

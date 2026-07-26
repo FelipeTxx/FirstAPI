@@ -8,7 +8,7 @@ import com.example.FirstAPI.exception.UserNotFoundException;
 import com.example.FirstAPI.repository.AppUserRepository;
 import com.example.FirstAPI.security.CustomUserDetailsService;
 import com.example.FirstAPI.security.JwtService;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
