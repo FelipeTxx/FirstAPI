@@ -48,7 +48,10 @@ public class HabitService {
 
     public List<HabitResponseDTO> getAllUserHabitsById(Long id) {
         userRepository.findById(id).orElseThrow(UserNotFoundException::new);
-        return repository.findById(id).stream().map(HabitResponseDTO::new).toList();
+
+        return repository.findAllByUsuario_id(id).stream().map(HabitResponseDTO::new).toList();
+
+
     }
 
     public Optional<HabitResponseDTO> updateById(Long id, HabitEntity habit) {

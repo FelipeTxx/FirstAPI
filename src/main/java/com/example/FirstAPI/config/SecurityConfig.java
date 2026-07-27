@@ -31,8 +31,9 @@ public class SecurityConfig{
         httpSecurity.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         httpSecurity.authorizeHttpRequests(authorize ->{
             authorize.requestMatchers(HttpMethod.POST, "/users", "/auth/login").permitAll();
-            authorize.requestMatchers("/habits**", "/users**").authenticated();
             authorize.requestMatchers( "/swagger-ui/**", "/v3/api-docs/**").permitAll();
+            authorize.anyRequest().authenticated();
+
         });
 
     return httpSecurity.build();
