@@ -4,11 +4,13 @@ import com.example.FirstAPI.DTO.HabitCreateDTO;
 import com.example.FirstAPI.DTO.HabitResponseDTO;
 import com.example.FirstAPI.DTO.HabitUpdateDTO;
 import com.example.FirstAPI.entity.HabitEntity;
+import com.example.FirstAPI.service.CurrentUserService;
 import com.example.FirstAPI.service.HabitService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.apache.tomcat.util.descriptor.web.ContextService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,9 +27,11 @@ public class HabitController{
         this.service = service;
     }
     @Operation(summary = "Criar um Hábito")
-    @PostMapping("/users/{id}/habits")
-    public ResponseEntity<HabitResponseDTO> createHabit(@Parameter(description = "ID do usuario em que deseja criar o Hábito") @PathVariable Long id,@Parameter(description = "Corpo JSON completo do Hábito") @Valid @RequestBody HabitCreateDTO habit){
-        Optional<HabitResponseDTO> create = service.createHabit(id, habit);
+    @PostMapping("/users/me/habits")
+    public ResponseEntity<HabitResponseDTO> createHabit(@Parameter(description = "Corpo JSON completo do Hábito") @Valid @RequestBody HabitCreateDTO habit){
+
+
+        Optional<HabitResponseDTO> create = service.createHabit(habit);
         if(create.isEmpty()){
             return ResponseEntity.notFound().build();
         }
@@ -47,16 +51,16 @@ public class HabitController{
         return ResponseEntity.ok(habit);
     }
     @Operation(summary = "Pegar todos os Hábitos relacionados a um usuario ao passar o ID do usuario requisitado.")
-    @GetMapping("/users/{id}/habits")
-    public ResponseEntity<List<@Valid HabitResponseDTO>> getAllUserHabitsByUserId(@PathVariable Long id){
-        List<HabitResponseDTO> habit = service.getAllUserHabitsById(id);
+    @GetMapping("/users/me/habits")
+    public ResponseEntity<List<@Valid HabitResponseDTO>> getAllUserHabitsByUserId(){
+        List<HabitResponseDTO> habit = service.getAllUserHabitsById();
         if(habit.isEmpty()){return ResponseEntity.notFound().build();}
         return ResponseEntity.ok(habit);
     }
     @Operation(summary = "Atualizar os dados de um Hábito passando o ID do mesmo, deve-se passar o JSON de todos os elementos, mesmo os que não desejamos alterar.")
-    @PutMapping("/users/habits/{id}")
-    public ResponseEntity<@Valid HabitResponseDTO> updateById(@PathVariable Long id, @RequestBody HabitEntity habit){
-        Optional<HabitResponseDTO> returnedHabit = service.updateById(id, habit);
+    @PutMapping("/users/me/habits/{habitId}")
+    public ResponseEntity<@Valid HabitResponseDTO> updateById(@PathVariable Long habitId, @RequestBody HabitUpdateDTO habit){
+        Optional<HabitResponseDTO> returnedHabit = service.updateById(habitId ,habit);
         if (returnedHabit.isEmpty()){return ResponseEntity.notFound().build();}
         return ResponseEntity.ok(returnedHabit.get());
 

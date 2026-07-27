@@ -25,6 +25,7 @@ public class AppUserController {
         this.userService = userService;
     }
 
+
     @PostMapping
     public ResponseEntity<UserResponseDTO> createUser(@Valid @RequestBody UserCreateDTO usuario){
         UserResponseDTO user = userService.createUser(usuario);
@@ -45,7 +46,6 @@ public class AppUserController {
         return ResponseEntity.ok(usuario);
     }
     @GetMapping("/search")
-
     public List<@Valid UserResponseDTO> findByNome(@RequestParam String nome){
         return userService.findByNome(nome);
     }

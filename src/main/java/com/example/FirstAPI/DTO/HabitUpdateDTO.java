@@ -10,16 +10,26 @@ public class HabitUpdateDTO {
     private String nome;
     @Size(max = 2000)
     private String descricao;
-    private String frequencia;
+    private HabitEntity.Frequencia frequencia;
     private Boolean concluidoHoje;
 
     public String getNome() {return nome;}
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
     public String getDescricao() {return descricao;}
 
-    public String getFrequencia() {return frequencia;}
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
 
+    public HabitEntity.Frequencia getFrequencia() {return frequencia;}
 
+    public void setFrequencia(HabitEntity.Frequencia frequencia) {
+        this.frequencia = frequencia;
+    }
 
     public HabitUpdateDTO(){
 

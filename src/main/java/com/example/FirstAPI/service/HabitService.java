@@ -3,8 +3,10 @@ package com.example.FirstAPI.service;
 import com.example.FirstAPI.DTO.HabitConclusionResponseDTO;
 import com.example.FirstAPI.DTO.HabitCreateDTO;
 import com.example.FirstAPI.DTO.HabitResponseDTO;
+import com.example.FirstAPI.DTO.HabitUpdateDTO;
 import com.example.FirstAPI.entity.AppUserEntity;
 import com.example.FirstAPI.entity.HabitEntity;
+import com.example.FirstAPI.exception.AccessDeniedException;
 import com.example.FirstAPI.exception.HabitNotFoundException;
 import com.example.FirstAPI.exception.UserNotFoundException;
 import com.example.FirstAPI.repository.AppUserRepository;
@@ -12,6 +14,7 @@ import com.example.FirstAPI.repository.HabitRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -19,14 +22,27 @@ public class HabitService {
 
     final HabitRepository repository;
     final AppUserRepository userRepository;
+    final CurrentUserService currentUserService;
 
-    public HabitService(HabitRepository repository, AppUserRepository userRepository){
+    public HabitService(HabitRepository repository, AppUserRepository userRepository, CurrentUserService currentUserService){
 
         this.repository = repository;
         this.userRepository = userRepository;
+        this.currentUserService = currentUserService;
     }
 
-    public Optional<HabitResponseDTO> createHabit(Long id, HabitCreateDTO habit) {
+    private void autorizarUso(long habitId){
+        HabitEntity habit = repository.findById(habitId).orElseThrow(HabitNotFoundException::new);
+        if (!Objects.equals(habit.getUsuario().getId(), currentUserService.getAuthenticatedUser().getId())){ throw new AccessDeniedException();}
+    }
+
+
+
+
+    public Optional<HabitResponseDTO> createHabit(HabitCreateDTO habit) {
+
+        Long id = currentUserService.getAuthenticatedUser().getId();
+
         HabitEntity entity = new HabitEntity(habit);
         Optional<AppUserEntity> userEntity = userRepository.findById(id);
         if (userEntity.isEmpty()){return Optional.empty();}
@@ -46,7 +62,10 @@ public class HabitService {
         return new HabitResponseDTO(habit);
     }
 
-    public List<HabitResponseDTO> getAllUserHabitsById(Long id) {
+    public List<HabitResponseDTO> getAllUserHabitsById() {
+
+        Long id = currentUserService.getAuthenticatedUser().getId();
+
         userRepository.findById(id).orElseThrow(UserNotFoundException::new);
 
         return repository.findAllByUsuario_id(id).stream().map(HabitResponseDTO::new).toList();
@@ -54,13 +73,14 @@ public class HabitService {
 
     }
 
-    public Optional<HabitResponseDTO> updateById(Long id, HabitEntity habit) {
-        HabitEntity finded = repository.findById(id).orElseThrow(HabitNotFoundException::new);  
+    public Optional<HabitResponseDTO> updateById(Long habitId , HabitUpdateDTO habit) {
+        HabitEntity finded = repository.findById(habitId).orElseThrow(HabitNotFoundException::new);
+        autorizarUso(habitId);
         finded.setNome(habit.getNome());
         finded.setDescricao(habit.getDescricao());
         finded.setFrequencia(habit.getFrequencia());
         repository.save(finded);
-        return repository.findById(id).map(HabitResponseDTO::new);
+        return repository.findById(habitId).map(HabitResponseDTO::new);
     }
 
     public Optional<HabitResponseDTO> deleteById(Long id) {

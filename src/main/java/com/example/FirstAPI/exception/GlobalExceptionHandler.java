@@ -51,5 +51,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> PasswordNotMatchesException(PasswordNotMatchesException ex){
         return ResponseEntity.status(401).body(ex.getMessage());
     }
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<String> AccessDeniedException(AccessDeniedException ex){
+        return ResponseEntity.status(403).body(ex.getMessage());
+    }
 
 }
