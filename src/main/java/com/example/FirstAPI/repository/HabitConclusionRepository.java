@@ -12,7 +12,7 @@ public interface HabitConclusionRepository extends JpaRepository<HabitConclusion
 
     List<HabitConclusionEntity> findByHabitId(Long id);
 
-    LocalDate findFirstByHabitIdOrderByDataAsc(Long id);
+    HabitConclusionEntity findFirstByHabitIdOrderByDataAsc(Long id);
 
-    LocalDate findLastByHabitIdOrderByDataAsc(Long id);
+    HabitConclusionEntity findLastByHabitIdOrderByDataAsc(Long id);
 }

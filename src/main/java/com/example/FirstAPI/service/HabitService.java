@@ -5,6 +5,7 @@ import com.example.FirstAPI.DTO.HabitCreateDTO;
 import com.example.FirstAPI.DTO.HabitResponseDTO;
 import com.example.FirstAPI.DTO.HabitUpdateDTO;
 import com.example.FirstAPI.entity.AppUserEntity;
+import com.example.FirstAPI.entity.HabitConclusionEntity;
 import com.example.FirstAPI.entity.HabitEntity;
 import com.example.FirstAPI.exception.AccessDeniedException;
 import com.example.FirstAPI.exception.HabitNotFoundException;
@@ -90,6 +91,22 @@ public class HabitService {
         return Optional.of(dto);
 
     }
+
+
+    public double getMetaProgression(Long habitId){
+        Long id = currentUserService.getAuthenticatedUser().getId();
+        userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        autorizarUso(habitId);
+        HabitConclusionEntity firstData = habitConclusionRepository.findFirstByHabitIdOrderByDataAsc(habitId);
+        HabitConclusionEntity lastData = habitConclusionRepository.findLastByHabitIdOrderByDataAsc(habitId);
+        HabitEntity meta = repository.findById(habitId).orElseThrow(() ->{throw new HabitNotFoundException("Você não possui uma meta cadastrada!");});
+        double diasTotais = ChronoUnit.DAYS.between(firstData.getData(), meta.getMeta())+1;
+        double diasDesdeDaUltimaMarcacao = ChronoUnit.DAYS.between(firstData.getData(), lastData.getData())+1;
+
+        return ((diasDesdeDaUltimaMarcacao/diasTotais)*100);
+
+    }
+
 
 
 }

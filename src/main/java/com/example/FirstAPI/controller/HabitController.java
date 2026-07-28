@@ -14,6 +14,7 @@ import org.apache.tomcat.util.descriptor.web.ContextService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,6 +63,11 @@ public class HabitController{
 
     }
 
+    @Operation(summary = "Mostrar o progresso da sua meta")
+    @GetMapping("/users/me/habits/{habitId}/meta")
+    public ResponseEntity<Double> getMetaProgression(@PathVariable Long habitId){
+        return ResponseEntity.ok(service.getMetaProgression(habitId));
+    }
 
 
 }
