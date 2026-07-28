@@ -14,6 +14,8 @@ public interface HabitRepository extends JpaRepository<HabitEntity, Long> {
 
 
 
+
+
     /*HabitEntity findByUsuarioId(Long usuarioPego);
 
     List<AppUserEntity> findByUserId();*/

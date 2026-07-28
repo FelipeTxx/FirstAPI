@@ -9,6 +9,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.time.LocalDate;
+
 public class HabitCreateDTO {
 
 
@@ -18,7 +20,7 @@ public class HabitCreateDTO {
     @Size(max = 2000, message = "Sua descrição não deve ter mais de 2000 caracteres!")
     private String descricao;
     private HabitEntity.Frequencia frequencia;
-    private boolean concluidoHoje;
+    private LocalDate meta;
 
     public String getNome() {return nome;}
 
@@ -26,7 +28,7 @@ public class HabitCreateDTO {
 
     public HabitEntity.Frequencia getFrequencia() {return frequencia;}
 
-
+    public LocalDate getMeta() {return meta;}
 
     public HabitCreateDTO(){
 

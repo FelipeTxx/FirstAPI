@@ -11,4 +11,8 @@ public interface HabitConclusionRepository extends JpaRepository<HabitConclusion
     Boolean existsByDataAndHabitId(LocalDate data, Long id);
 
     List<HabitConclusionEntity> findByHabitId(Long id);
+
+    LocalDate findFirstByHabitIdOrderByDataAsc(Long id);
+
+    LocalDate findLastByHabitIdOrderByDataAsc(Long id);
 }

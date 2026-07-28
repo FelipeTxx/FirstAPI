@@ -4,6 +4,8 @@ import com.example.FirstAPI.entity.HabitEntity;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import java.time.LocalDate;
+
 public class HabitResponseDTO {
     @NotBlank
     @Size(min = 1, max = 20)
@@ -11,7 +13,7 @@ public class HabitResponseDTO {
     @Size(max = 2000)
     private String descricao;
     private HabitEntity.Frequencia frequencia;
-    private Boolean concluidoHoje;
+    private LocalDate meta;
 
     public String getNome() {return nome;}
 
@@ -19,13 +21,13 @@ public class HabitResponseDTO {
 
     public HabitEntity.Frequencia getFrequencia() {return frequencia;}
 
+    public LocalDate getMeta() {return meta;}
 
-
-    public HabitResponseDTO(HabitEntity habit){
+    public HabitResponseDTO(HabitEntity habit) {
         this.nome = habit.getNome();
         this.descricao = habit.getDescricao();
         this.frequencia = habit.getFrequencia();
-
+        this.meta = habit.getMeta();
     }
 
 

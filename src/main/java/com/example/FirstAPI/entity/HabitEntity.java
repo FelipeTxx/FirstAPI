@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -28,9 +29,13 @@ public class HabitEntity {
     @OneToMany(mappedBy = "habit")
     private List<HabitConclusionEntity> habitConclusion;
 
+    private LocalDate meta;
+
     //talvez um @ForeignKey ou algo do genero?
     @ManyToOne
     private AppUserEntity usuario;
+
+
 
     public Long getId() {return id;}
     public void setId(Long id) {this.id = id;}
@@ -44,7 +49,8 @@ public class HabitEntity {
     public Frequencia getFrequencia() {return frequencia;}
     public void setFrequencia(Frequencia frequencia) {this.frequencia = frequencia;}
 
-
+    public LocalDate getMeta() {return meta;}
+    public void setMeta(LocalDate meta) {this.meta = meta;}
 
     public AppUserEntity getUsuario() {return usuario;}
     public void setUsuario(AppUserEntity usuario) {this.usuario = usuario;}
@@ -57,7 +63,7 @@ public class HabitEntity {
         this.nome = dto.getNome();
         this.descricao = dto.getDescricao();
         this.frequencia = dto.getFrequencia();
-
+        this.meta = dto.getMeta();
     }
 
 }

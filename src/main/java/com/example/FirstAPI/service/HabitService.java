@@ -10,9 +10,12 @@ import com.example.FirstAPI.exception.AccessDeniedException;
 import com.example.FirstAPI.exception.HabitNotFoundException;
 import com.example.FirstAPI.exception.UserNotFoundException;
 import com.example.FirstAPI.repository.AppUserRepository;
+import com.example.FirstAPI.repository.HabitConclusionRepository;
 import com.example.FirstAPI.repository.HabitRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -23,12 +26,14 @@ public class HabitService {
     final HabitRepository repository;
     final AppUserRepository userRepository;
     final CurrentUserService currentUserService;
+    final HabitConclusionRepository habitConclusionRepository;
 
-    public HabitService(HabitRepository repository, AppUserRepository userRepository, CurrentUserService currentUserService){
+    public HabitService(HabitRepository repository, AppUserRepository userRepository, CurrentUserService currentUserService, HabitConclusionRepository habitConclusionRepository){
 
         this.repository = repository;
         this.userRepository = userRepository;
         this.currentUserService = currentUserService;
+        this.habitConclusionRepository = habitConclusionRepository;
     }
 
     private void autorizarUso(long habitId){
@@ -79,6 +84,7 @@ public class HabitService {
         finded.setNome(habit.getNome());
         finded.setDescricao(habit.getDescricao());
         finded.setFrequencia(habit.getFrequencia());
+        finded.setMeta(habit.getMeta());
         repository.save(finded);
         return repository.findById(habitId).map(HabitResponseDTO::new);
     }
@@ -91,4 +97,6 @@ public class HabitService {
         return Optional.of(dto);
 
     }
+
+
 }
