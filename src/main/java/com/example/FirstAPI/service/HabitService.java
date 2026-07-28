@@ -58,14 +58,6 @@ public class HabitService {
         return Optional.of(dto);
     }
 
-    public List<HabitResponseDTO> getAllHabits() {
-        return repository.findAll().stream().map(HabitResponseDTO::new).toList();
-    }
-
-    public HabitResponseDTO getHabitById(Long id) {
-       HabitEntity habit = repository.findById(id).orElseThrow(HabitNotFoundException::new);
-        return new HabitResponseDTO(habit);
-    }
 
     public List<HabitResponseDTO> getAllUserHabitsById() {
 
@@ -89,11 +81,12 @@ public class HabitService {
         return repository.findById(habitId).map(HabitResponseDTO::new);
     }
 
-    public Optional<HabitResponseDTO> deleteById(Long id) {
-        Optional<HabitEntity> findedHabit = repository.findById(id);
+    public Optional<HabitResponseDTO> deleteById(Long habitId) {
+        autorizarUso(habitId);
+        Optional<HabitEntity> findedHabit = repository.findById(habitId);
         if (findedHabit.isEmpty()){return Optional.empty();}
         HabitResponseDTO dto = new HabitResponseDTO(findedHabit.get());
-        repository.deleteById(id);
+        repository.deleteById(habitId);
         return Optional.of(dto);
 
     }

@@ -20,7 +20,7 @@ public class HabitConclusionController {
         this.service = service;
     }
 
-    @PostMapping("/habits/{id}/complete")
+    @PostMapping("me/habits/{id}/complete")
     public ResponseEntity<@Valid Void> concluirHabito(@PathVariable Long id){
         Boolean conclusion = service.concluirHabito(id);
         if(!conclusion){
@@ -29,7 +29,7 @@ public class HabitConclusionController {
         return ResponseEntity.accepted().build();
     }
 
-    @DeleteMapping("/habits/{id}/{conclusionId}")
+    @DeleteMapping("me/habits/{id}/{conclusionId}")
     public ResponseEntity<@Valid Boolean> deletarHabitoConclusion(@PathVariable long id, @PathVariable Long conclusionId){
         Boolean deleted = service.deletarHabitoConclusion(id, conclusionId);
         if(!deleted){
@@ -37,14 +37,14 @@ public class HabitConclusionController {
         }
         return ResponseEntity.accepted().build();
     }
-    @GetMapping("/habits/{id}/all")
+    @GetMapping("me/habits/{id}/all")
     public ResponseEntity<List<HabitConclusionResponseDTO>> getAllConclusions(@PathVariable Long id){
         List<HabitConclusionResponseDTO> conclusion = service.getAllConclusions(id);
         if(conclusion.isEmpty()){return ResponseEntity.notFound().build();}
         return ResponseEntity.ok(conclusion);
     }
 
-    @GetMapping("/habits/{id}/{conclusionID}")
+    @GetMapping("me/habits/{id}/{conclusionID}")
     public ResponseEntity<HabitConclusionResponseDTO> getConclusionById(@PathVariable Long id, @PathVariable Long conclusionID){
         HabitConclusionResponseDTO finded = service.getConclusionById(id, conclusionID);
         return ResponseEntity.ok(finded);

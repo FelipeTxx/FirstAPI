@@ -6,6 +6,7 @@ import com.example.FirstAPI.DTO.UserUpdateDTO;
 import com.example.FirstAPI.entity.AppUserEntity;
 import com.example.FirstAPI.exception.UserNotFoundException;
 import com.example.FirstAPI.repository.AppUserRepository;
+import org.apache.tomcat.util.descriptor.web.ContextHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -20,13 +21,14 @@ import java.util.Optional;
 public class AppUserService {
     private final AppUserRepository repository;
     private final PasswordEncoder passwordEncoder;
+    private final CurrentUserService currentUserService;
 
 
-
-    public AppUserService(AppUserRepository repository, PasswordEncoder passwordEncoder) {
+    public AppUserService(AppUserRepository repository, PasswordEncoder passwordEncoder, CurrentUserService currentUserService) {
         this.repository = repository;
 
         this.passwordEncoder = passwordEncoder;
+        this.currentUserService = currentUserService;
     }
 
     public UserResponseDTO createUser(UserCreateDTO dto) {
@@ -47,17 +49,13 @@ public class AppUserService {
     }
 
 
-    public UserResponseDTO findUserById(Long id) {
-         return repository.findById(id).map(UserResponseDTO::new).orElseThrow(UserNotFoundException::new);
+    public UserResponseDTO findUserById() {
+        Long id = currentUserService.getAuthenticatedUser().getId();
+        return repository.findById(id).map(UserResponseDTO::new).orElseThrow(UserNotFoundException::new);
     }
 
-    public List<UserResponseDTO> findByNome(String nome){
-        return repository.findByNome(nome).stream().map(UserResponseDTO::new).toList();
-    }
-
-
-    public Optional<UserResponseDTO> updateUserById(UserUpdateDTO usuario, Long id) {
-
+    public Optional<UserResponseDTO> updateUserById(UserUpdateDTO usuario) {
+        Long id = currentUserService.getAuthenticatedUser().getId();
         Optional<AppUserEntity> usuarioEncontrado = repository.findById(id);
         if(usuarioEncontrado.isEmpty()){return Optional.empty();}
 
@@ -76,14 +74,13 @@ public class AppUserService {
 
     }
 
-    public Boolean deleteUserById(Long id) {
+    public Boolean deleteUserById() {
+        Long id = currentUserService.getAuthenticatedUser().getId();
         Optional<AppUserEntity> usuarioASerDeletado = repository.findById(id);
         if(usuarioASerDeletado.isEmpty()){ return false; }
         repository.deleteById(id);
         return true;
     }
 
-    public UserResponseDTO findByEmail(String email) {
-         return (repository.findByEmail(email).map(UserResponseDTO::new).orElseThrow());
-    }
+
 }
