@@ -37,20 +37,7 @@ public class HabitController{
         }
         return ResponseEntity.ok(create.get());
     }
-    @Operation(summary = "Pegar Todos os Hábitos Existentes")
-    @GetMapping("/users/habits")
-    public ResponseEntity<List<@Valid HabitResponseDTO>> getAllHabits(){
-        List<HabitResponseDTO> habit = service.getAllHabits();
-        if (habit.isEmpty()){return ResponseEntity.notFound().build();}
-        return ResponseEntity.ok(habit);
-    }
-    @Operation(summary = "Pegar um Hábito pelo seu ID")
-    @GetMapping("/users/habits/{id}")
-    public ResponseEntity<@Valid HabitResponseDTO> getHabitById(@PathVariable Long id){
-        HabitResponseDTO habit = service.getHabitById(id);
-        return ResponseEntity.ok(habit);
-    }
-    @Operation(summary = "Pegar todos os Hábitos relacionados a um usuario ao passar o ID do usuario requisitado.")
+    @Operation(summary = "Pegar todos os Hábitos relacionados a um usuario.")
     @GetMapping("/users/me/habits")
     public ResponseEntity<List<@Valid HabitResponseDTO>> getAllUserHabitsByUserId(){
         List<HabitResponseDTO> habit = service.getAllUserHabitsById();
@@ -67,9 +54,9 @@ public class HabitController{
     }
 
     @Operation(summary = "Deletar um Hábito pelo ID do mesmo")
-    @DeleteMapping("/users/habits/{id}")
-    public ResponseEntity<HabitResponseDTO> deleteById(@PathVariable Long id){
-        Optional<HabitResponseDTO> deletedHabit = service.deleteById(id);
+    @DeleteMapping("/users/me/habits/{habitId}")
+    public ResponseEntity<HabitResponseDTO> deleteById(@PathVariable Long habitId){
+        Optional<HabitResponseDTO> deletedHabit = service.deleteById(habitId);
         if (deletedHabit.isEmpty()){return ResponseEntity.notFound().build();}
         return ResponseEntity.ok(deletedHabit.get());
 

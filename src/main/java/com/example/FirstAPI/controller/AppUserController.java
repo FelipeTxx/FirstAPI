@@ -32,41 +32,26 @@ public class AppUserController {
         return ResponseEntity.ok(user);
     }
 
-    @GetMapping
-
-    public List<UserResponseDTO> findUsers(){
-        return userService.findUsers();
-    }
-
-    @GetMapping("/{id}")
-
-    public ResponseEntity<@Valid UserResponseDTO> findUserById(@PathVariable Long id){
-        UserResponseDTO usuario = userService.findUserById(id);
-
+    @GetMapping("/{me}")
+    public ResponseEntity<@Valid UserResponseDTO> findUserById(){
+        UserResponseDTO usuario = userService.findUserById();
         return ResponseEntity.ok(usuario);
     }
-    @GetMapping("/search")
-    public List<@Valid UserResponseDTO> findByNome(@RequestParam String nome){
-        return userService.findByNome(nome);
-    }
 
-    @GetMapping("/searchEmail")
-    public ResponseEntity<@Valid UserResponseDTO> findByEmail(@RequestParam String email){
-        return ResponseEntity.ok(userService.findByEmail(email));
-    }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> updateUserById(@Valid @RequestBody UserUpdateDTO usuario, @PathVariable Long id){
-        Optional<UserResponseDTO> user = userService.updateUserById(usuario, id);
+
+    @PutMapping("/me")
+    public ResponseEntity<UserResponseDTO> updateUserById(@Valid @RequestBody UserUpdateDTO usuario){
+        Optional<UserResponseDTO> user = userService.updateUserById(usuario);
         if (user.isEmpty()){
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(user.get());
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteUserById(@PathVariable Long id){
-        Boolean usuarioASerDeletado = userService.deleteUserById(id);
+    @DeleteMapping("/delete/me")
+    public ResponseEntity<Void> deleteUserById(){
+        Boolean usuarioASerDeletado = userService.deleteUserById();
 
         if(usuarioASerDeletado){
             return ResponseEntity.ok(null);
