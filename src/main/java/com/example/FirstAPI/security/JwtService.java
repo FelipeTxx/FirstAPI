@@ -44,11 +44,11 @@ public class JwtService {
         String username = extractUsername(token);
         Date expiration = extractExpiration(token);
         if (expiration.before(new Date()) || !(username.equals(user.getUsername()))){
-            System.out.println("TOKEN IIIIINNNNNNVALIDADO");
+
             return false;
         }
         else {
-            System.out.println("TOKEN VALIDADO");
+
             return true;
         }
     }

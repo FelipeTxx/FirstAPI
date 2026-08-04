@@ -28,6 +28,7 @@ public class SecurityConfig{
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.csrf(csrf -> csrf.disable());
+        httpSecurity.cors(cors ->{});
         httpSecurity.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         httpSecurity.authorizeHttpRequests(authorize ->{
             authorize.requestMatchers(HttpMethod.POST, "/users", "/auth/login").permitAll();
