@@ -3,6 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 import Login from './pages/login'
+import Cadastro from './pages/cadastro'
 
 import './App.css'
 
@@ -13,7 +14,7 @@ function App() {
 
 
     <div>
-      <Login/>
+      <Cadastro/> 
     </div>
 
     
@@ -21,4 +22,4 @@ function App() {
 
 }
 
-export default App
+export default App 
