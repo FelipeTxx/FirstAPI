@@ -19,7 +19,7 @@ function Login(){
         
 
         <div>
-            <h2>Login: </h2>
+            <h2>Login</h2>
             <label htmlFor="email">E-mail:</label>
             <input onChange={(evento) => setEmail(evento.target.value)} value={email} type="email" id="email" name="email"/>
             <br />
