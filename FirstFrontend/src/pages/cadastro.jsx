@@ -1,8 +1,11 @@
 import { useState } from "react"
-
-
+import AlternarEntreCadastro_E_Login from "../components/AlternarEntreCadastro_E_Login"
+import CadastrarUsuario from "../api/UserApi"
+import { useNavigate } from "react-router-dom"
 
 function Cadastro(){
+
+    const navigate = useNavigate()
 
     const [email, setEmail] = useState("")
     const [senha, setsenha] = useState("")
@@ -11,10 +14,13 @@ function Cadastro(){
     const [peso, setPeso] = useState("")
     const [altura, setAltura] = useState("")
 
-    async function cadastrar(){
 
-        const resposta = await fetch("http://localhost:8081/users", {method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({nome, idade, altura, peso, senha, email})}) 
-        alert(resposta.status)   
+    async function cadastrar(){
+        const cadastro = CadastrarUsuario(email, senha, nome, idade, altura, peso)
+        if (cadastro){
+            await navigate("/")
+        }
+
         
     }
 
@@ -26,7 +32,7 @@ function Cadastro(){
             <input onChange={(evento)=>setEmail(evento.target.value)} value={email} type="email" name="email" id="email" />
             <br />
             <label htmlFor="password">Senha: </label>
-            <input onChange={(evento)=>setsenha(evento.target.value)} value={senha} type="passwork" name="password" id="password" />
+            <input onChange={(evento)=>setsenha(evento.target.value)} value={senha} type="password" name="password" id="password" />
             <label htmlFor="text">Nome: </label>
             <input onChange={(evento)=>setNome(evento.target.value)} value={nome} type="text" name="name" id="name" />
             <label htmlFor="texto">Idade:</label>
@@ -36,6 +42,7 @@ function Cadastro(){
             <label htmlFor="text">Peso: </label>
             <input onChange={(evento)=>setPeso(evento.target.value)} type="text" name="peso" id="peso" />
             <button onClick={()=>cadastrar()}>Cadastrar</button>
+            <AlternarEntreCadastro_E_Login path="/" texto="Já tem conta? Clique Aqui!" />
         
         </div>
 

@@ -1,18 +1,27 @@
 
 import { useState } from "react"
+import api from '../api/api'
+import { useNavigate } from "react-router-dom";
+import AlternarEntreCadastro_E_Login from "../components/AlternarEntreCadastro_E_Login";
+import authApi from "../api/AuthApi";
+
+
 
 function Login(){
 
+    const navigate = useNavigate();
+
+    async function logar(email, senha){
+        const chamado = await authApi.authApiPost(email, senha)
+        if (chamado){
+            navigate("/dashboard")
+        }
+    }
+
+
     const [email, setEmail] = useState("")
     const [senha, setSenha] = useState("")
-    
-    async function logar(){
 
-        const resposta = await fetch("http://localhost:8081/auth/login", {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({email, senha})})
-        const dados = await resposta.json()
-        alert(dados.token)
-        
-    }
 
     return(
 
@@ -26,7 +35,9 @@ function Login(){
             <label htmlFor="password">Password:</label>
             <input onChange={(evento) => setSenha(evento.target.value)} value={senha} type="password" id="password" name="password" />
             <br />
-            <button onClick={() => logar()} className="login">Login</button>
+            <button onClick={() => logar(email, senha)} className="login">Login</button>
+            <br />
+            <AlternarEntreCadastro_E_Login path="/cadastro" texto="Não tem conta? Clique Aqui!" />
         </div>
         
 

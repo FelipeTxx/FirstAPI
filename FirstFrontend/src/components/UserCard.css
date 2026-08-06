@@ -1,0 +1,15 @@
+.mainDiv{
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-left: auto;
+    margin-right: auto;
+    padding-right: 30px;
+    padding-left: 30px;
+    padding-bottom: 15px;
+    border: 2px solid rgb(44, 43, 43) ;
+    border-radius: 20px;
+    background-color: rgb(241, 241, 241);
+    
+}
