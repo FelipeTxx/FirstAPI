@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,6 +50,12 @@ public class HabitConclusionController {
         HabitConclusionResponseDTO finded = service.getConclusionById(id, conclusionID);
         return ResponseEntity.ok(finded);
 
+    }
+
+    @GetMapping("me/habits/hoje/{id}/{data}")
+    public ResponseEntity<HabitConclusionResponseDTO> getConclusionByData(@PathVariable Long id, @PathVariable LocalDate data){
+        HabitConclusionResponseDTO finded = service.getConclusionByData(id, data);
+        return ResponseEntity.ok(finded);
     }
 
 

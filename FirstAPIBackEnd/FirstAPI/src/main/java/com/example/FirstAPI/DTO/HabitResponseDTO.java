@@ -14,6 +14,7 @@ public class HabitResponseDTO {
     private String descricao;
     private HabitEntity.Frequencia frequencia;
     private LocalDate meta;
+    private long id;
 
     public String getNome() {return nome;}
 
@@ -23,7 +24,12 @@ public class HabitResponseDTO {
 
     public LocalDate getMeta() {return meta;}
 
+    public long getId() {
+        return id;
+    }
+
     public HabitResponseDTO(HabitEntity habit) {
+        this.id = habit.getId();
         this.nome = habit.getNome();
         this.descricao = habit.getDescricao();
         this.frequencia = habit.getFrequencia();

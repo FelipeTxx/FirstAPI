@@ -33,14 +33,19 @@ function Cadastro(){
             <br />
             <label htmlFor="password">Senha: </label>
             <input onChange={(evento)=>setsenha(evento.target.value)} value={senha} type="password" name="password" id="password" />
+            <br />
             <label htmlFor="text">Nome: </label>
             <input onChange={(evento)=>setNome(evento.target.value)} value={nome} type="text" name="name" id="name" />
+            <br />
             <label htmlFor="texto">Idade:</label>
             <input onChange={(evento)=>setIdade(evento.target.value)} type="text" name="idade" id="idade" />
+            <br />
             <label htmlFor="text">Altura: </label>
             <input onChange={(evento)=>setAltura(evento.target.value)} type="text" name="altura" id="altura" />
+            <br />
             <label htmlFor="text">Peso: </label>
             <input onChange={(evento)=>setPeso(evento.target.value)} type="text" name="peso" id="peso" />
+            <br />
             <button onClick={()=>cadastrar()}>Cadastrar</button>
             <AlternarEntreCadastro_E_Login path="/" texto="Já tem conta? Clique Aqui!" />
         

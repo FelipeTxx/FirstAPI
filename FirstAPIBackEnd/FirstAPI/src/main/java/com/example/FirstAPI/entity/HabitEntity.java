@@ -26,7 +26,7 @@ public class HabitEntity {
     }
     @Enumerated(EnumType.STRING)
     private Frequencia frequencia;
-    @OneToMany(mappedBy = "habit")
+    @OneToMany(mappedBy = "habit", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HabitConclusionEntity> habitConclusion;
 
     private LocalDate meta;

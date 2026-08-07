@@ -1,0 +1,14 @@
+.mainDiv{
+    width:80px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    
+}
+.UserName{
+    cursor: pointer; 
+}

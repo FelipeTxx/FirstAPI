@@ -75,4 +75,12 @@ public class HabitConclusionService {
         HabitConclusionResponseDTO dto = new HabitConclusionResponseDTO(findedConclusion);
         return dto;
     }
+
+    public HabitConclusionResponseDTO getConclusionByData(Long id, LocalDate data) {
+        authorizarUsoHabit(id);
+        habitRepository.findById(id).orElseThrow(HabitNotFoundException::new);
+        HabitConclusionEntity findedConclusion = repository.findByHabitIdAndData(id, data).orElseThrow(HabitConclusionNotFoundException::new);
+        HabitConclusionResponseDTO dto = new HabitConclusionResponseDTO(findedConclusion);
+        return dto;
+    }
 }

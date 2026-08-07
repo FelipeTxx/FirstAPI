@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import "./AlternarEntreCadastro_E_Login.css"
+import "./CSS/AlternarEntreCadastro_E_Login.css"
 
 function AlternarEntreCadastro_E_Login(props){
 

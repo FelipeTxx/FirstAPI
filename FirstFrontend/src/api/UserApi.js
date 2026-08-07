@@ -8,4 +8,17 @@ async function CadastrarUsuario(email, senha, nome, idade, altura, peso) {
     else{return false}
 }
 
-export default CadastrarUsuario
+async function AtualizarUsuario(nome, idade, altura, peso) {
+
+    const resposta = await apiClients.apiClient("users/me", 'PUT', {nome, idade, altura, peso} )
+    return resposta
+    
+}
+
+async function deleteUser() {
+    const resposta = await apiClients.apiClientGet("users/delete/me", 'DELETE')
+    return resposta
+}
+
+const userApis = {CadastrarUsuario, AtualizarUsuario, deleteUser}
+export default userApis

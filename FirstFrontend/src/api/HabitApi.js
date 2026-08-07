@@ -9,10 +9,17 @@ async function createHabit(nome, descricao, frequencia, meta){
 
 async function showHabit() {
 
-    const resposta = await apiClients.apiClient("user/me/habits", 'GET', null)
-    return await resposta
+    const resposta = await apiClients.apiClientGet("users/me/habits", 'GET')
+    return await resposta.json()
     
 }
 
-const habitApi = {createHabit, showHabit}
+async function deleteHabit(id) {
+    
+    const resposta = await apiClients.apiClient(`users/me/habits/${id}`, 'DELETE', id)
+    return await resposta
+
+}
+
+const habitApi = {createHabit, showHabit, deleteHabit}
 export default habitApi

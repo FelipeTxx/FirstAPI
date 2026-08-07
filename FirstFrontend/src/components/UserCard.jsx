@@ -1,5 +1,5 @@
 import { useState } from "react"
-import "./UserCard.css"
+import "./CSS/UserCard.css"
 
 
 function UserCard(props){
@@ -10,14 +10,13 @@ function UserCard(props){
     
     return(
         
-        <div className="mainDiv">
+        <div >
+            
             <h3><b>{dados?.nome}</b></h3>
             <p><b>Email:</b> {dados?.email}</p>
             <p><b>Idade:</b> {dados?.idade}</p>
             <p><b>Altura:</b> {dados?.altura}</p>
             <p><b>Peso:</b> {dados?.peso}</p>
-            
-            
 
         </div>
 

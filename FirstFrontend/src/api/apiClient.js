@@ -19,6 +19,18 @@ async function apiClient(endpoint, metodo, body){
     
 }
 
+async function apiClientGet(endpoint, metodo){
+
+    
+
+    const baseUrl = "http://localhost:8081/" 
+    const resposta = await fetch(baseUrl+endpoint, {method: metodo, headers: getHeader()})
+
+
+    return(await resposta)
+    
+}
+
 async function apiClientPublic(endpoint, metodo, body){
 
     
@@ -31,6 +43,6 @@ async function apiClientPublic(endpoint, metodo, body){
     
 }
 
-const apiClients = {apiClient, apiClientPublic}
+const apiClients = {apiClient, apiClientPublic, apiClientGet}
 
 export default apiClients

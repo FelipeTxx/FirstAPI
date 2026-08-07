@@ -60,11 +60,10 @@ public class AppUserService {
         if(usuarioEncontrado.isEmpty()){return Optional.empty();}
 
         AppUserEntity usuarioAtualizado = usuarioEncontrado.get();
-
-        usuarioAtualizado.setNome(usuario.getNome());
-        usuarioAtualizado.setIdade(usuario.getIdade());
-        usuarioAtualizado.setAltura(usuario.getAltura());
-        usuarioAtualizado.setPeso(usuario.getPeso());
+        if(usuario.getNome()!=null){usuarioAtualizado.setNome(usuario.getNome());}
+        if(usuario.getIdade()!=0){usuarioAtualizado.setIdade(usuario.getIdade());}
+        if(usuario.getAltura()!=0.0){usuarioAtualizado.setAltura(usuario.getAltura());}
+        if(usuario.getPeso()!=0.0){usuarioAtualizado.setPeso(usuario.getPeso());}
         repository.save(usuarioAtualizado);
 
         UserResponseDTO dto = new UserResponseDTO(usuarioAtualizado);

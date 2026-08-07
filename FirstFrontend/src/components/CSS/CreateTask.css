@@ -1,0 +1,39 @@
+.mainDiv{
+    display: flex;
+    
+    border: 2px solid black;
+}
+
+.btnCriarTask{
+    color: black;
+}
+
+.TaskEnvolve{
+    width: fit-content;
+    
+    flex-direction: column;
+  
+    margin-left: auto;
+    margin-right: auto;
+    border: 2px solid rgb(44, 43, 43) ;
+    border-radius: 20px;
+    background-color: rgb(241, 241, 241);
+}
+
+.BtnName {
+    width: 300px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.BtnName input {
+    width: 18px;
+    height: 18px;
+}
+
+.BtnName h3 {
+    margin: 0;
+}
