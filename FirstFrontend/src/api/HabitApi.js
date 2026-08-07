@@ -21,5 +21,10 @@ async function deleteHabit(id) {
 
 }
 
-const habitApi = {createHabit, showHabit, deleteHabit}
+async function atualizarHabit(id, nome, descricao, frequencia, meta) {
+    const resposta = await apiClients.apiClient(`users/me/habits/${id}`, 'PUT', {nome, descricao, frequencia, meta})
+    return await resposta
+}
+
+const habitApi = {createHabit, showHabit, deleteHabit, atualizarHabit}
 export default habitApi

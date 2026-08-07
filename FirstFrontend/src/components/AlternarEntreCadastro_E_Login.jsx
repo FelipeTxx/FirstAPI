@@ -11,7 +11,7 @@ function AlternarEntreCadastro_E_Login(props){
 
     return(
         <div>
-            <p className="alternar" onClick={()=>alternar(props.path)}> {props.texto} </p>
+            <p className="alternateLink" onClick={()=>alternar(props.path)}> {props.texto} </p>
         </div>
     )
 }

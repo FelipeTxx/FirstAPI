@@ -1,6 +1,6 @@
-
 import habitApi from "../api/HabitApi"
-import { use, useState } from "react"
+import { useState } from "react"
+import "./CSS/CreateTask.css"
 
 function CreateTask(props){
 
@@ -9,54 +9,44 @@ function CreateTask(props){
     const [nome, setNome] = useState("")
     const [meta, setMeta] = useState("")
 
-    const [retorno, setRetorno] = useState(403) 
-
-    const [erro, setErro] = useState(null)
-
     async function cadastrarHabito(){
-        console.log(frequencia)
-        const cadastro =await habitApi.createHabit(nome, descricao, frequencia, meta)
-        if (await cadastro.status === 200){
+        const cadastro = await habitApi.createHabit(nome, descricao, frequencia, meta)
+        if (cadastro.status === 200){
             await props.alternar()
         }
     }
 
-
-    
-
     return(
-        
-        <div>
+        <div className="createTaskCard">
             <h3>Criar Habito</h3>
+            <div className="createTaskGrid">
+                <div>
+                    <label htmlFor="name">Nome:</label>
+                    <input onChange={(evento)=>setNome(evento.target.value)} value={nome} type="text" name="name" id="name" />
+                </div>
 
-            <label htmlFor="text">Nome: </label>
-            <input onChange={(evento)=>setNome(evento.target.value)} value={nome} type="text" name="name" id="name" />
-            <br />
+                <div>
+                    <label htmlFor="descricao">Descrição:</label>
+                    <input onChange={(evento)=>setDescricao(evento.target.value)} value={descricao} type="text" name="descricao" id="descricao" />
+                </div>
 
-            <label htmlFor="text" >Descrição: </label>
-            <input onChange={(evento)=>setDescricao(evento.target.value)} value={descricao} type="text" name="descricao" id="descricao" />
-            <br />
+                <div>
+                    <label htmlFor="frequencia">Frequência:</label>
+                    <select onChange={(evento)=>setFrequencia(evento.target.value)} value={frequencia} name="frequencia" id="frequencia">
+                        <option value="DIARIO">Diário</option>
+                        <option value="SEMANAL">Semanal</option>
+                        <option value="MENSAL">Mensal</option>
+                    </select>
+                </div>
 
-            <label htmlFor="frequencia">Frequência: </label>
-            <select onChange={(evento)=>setFrequencia(evento.target.value)} value={frequencia} type="text" name="frequencia" id="frequencia">
-
-                <option value="DIARIO">Diario</option>
-                <option value="SEMANAL">Semanal</option>
-                <option value="MENSAL">Mensal</option>
-                
-
-            </select>
-            <br />
-
-            
-
-            <label htmlFor="date">Meta:</label>
-            <input onChange={(evento)=>setMeta(evento.target.value)} value={meta} type="date" name="meta" id="meta" />
-            <br />
-           
-            <button onClick={()=>{cadastrarHabito()}}  > Criar </button>
-
-            
+                <div>
+                    <label htmlFor="meta">Meta:</label>
+                    <input onChange={(evento)=>setMeta(evento.target.value)} value={meta} type="date" name="meta" id="meta" />
+                </div>
+            </div>
+            <div className="createTaskActions">
+                <button className="btnPrimary" onClick={()=>cadastrarHabito()}>Criar</button>
+            </div>
         </div>
     )
 }

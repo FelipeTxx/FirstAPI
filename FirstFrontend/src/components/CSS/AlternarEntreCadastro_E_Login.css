@@ -1,5 +1,12 @@
-.alternar{
-  color: rgb(0, 119, 255);
+.alternateLink {
+  display: inline-flex;
+  margin-top: 14px;
+  color: var(--primary-strong);
+  font-weight: 700;
   cursor: pointer;
+}
+
+.alternateLink:hover {
   text-decoration: underline;
 }
+

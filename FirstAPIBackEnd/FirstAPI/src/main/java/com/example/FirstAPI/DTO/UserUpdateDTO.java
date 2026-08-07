@@ -3,7 +3,7 @@ package com.example.FirstAPI.DTO;
 import com.example.FirstAPI.entity.AppUserEntity;
 import jakarta.validation.constraints.*;
 
-public class UserUpdateDTO {
+public class    UserUpdateDTO {
     @NotBlank
     private String nome;
     @NotNull
